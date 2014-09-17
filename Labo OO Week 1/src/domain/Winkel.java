@@ -1,9 +1,6 @@
 package domain;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.swing.JOptionPane;
 
 public class Winkel {
 	
@@ -14,17 +11,28 @@ public class Winkel {
 		items = new HashMap<Integer, Item>();
 	}
 	
+	public int nbItems() {
+		return items.size();
+	}
+
 	public String getTitle(int itemid) {
-		return items.get(itemid).getTitle();
+		if (items.containsKey(itemid))	
+			return items.get(itemid).getTitle();
+		else
+			return "";
+		
 	}
 	
 	public double getPrice(int itemid, int days) {
-		return items.get(itemid).getPrice(days);
+		if (items.containsKey(itemid))	
+			return items.get(itemid).getPrice(days);
+		else
+			return -1;
 	}		
 	
 	public boolean addItem(String title, int id, String type) {
 		Item item;
-		switch (title) {
+		switch (type) {
 		case "M":
 			item = new Movie(title, id);
 			break;

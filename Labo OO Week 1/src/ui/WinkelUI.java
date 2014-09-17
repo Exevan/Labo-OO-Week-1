@@ -36,16 +36,29 @@ public class WinkelUI {
 		return JOptionPane.showInputDialog("Enter the title:");
 	}
 
+	private String askType() {
+		return JOptionPane.showInputDialog("Enter the type (M for movie/G for game):");
+	}
+
 	private int askId() {
 		while (true) {
 			try {
 				return Integer.parseInt(JOptionPane.showInputDialog("Enter the id:"));
-			} catch (NumberFormatException e) {}
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "Please enter a number");
+			}
 		}
 	}
 
-	private String askType() {
-		return JOptionPane.showInputDialog("Enter the type (M for movie/G for game):");
+	private int askDays() {
+		while (true) {
+			try {
+				return Integer.parseInt(JOptionPane.showInputDialog("Enter the number of days:"));
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "Please enter a number");
+			}
+		}
+		
 	}
 
 	public void addItem(Winkel winkel) {
@@ -57,35 +70,21 @@ public class WinkelUI {
 
 	public void showItem(Winkel winkel){
 		int id = askId();
-		int idx = -1;
-		boolean gevonden = false;
-		if(winkel.itemIds.get(i).equals(id))
-		{
-			idx = i;
-			gevonden = true;
-		}
-
-		if(gevonden)
-		{
-			JOptionPane.showMessageDialog(null, winkel.itemTitles.get(idx));
-		}		
+		String title = winkel.getTitle(id);
+		if(! title.equals(""))
+			JOptionPane.showMessageDialog(null, title);
+		else
+			JOptionPane.showMessageDialog(null, "Item id not found");
 	}
 
 	public void showPrice(Winkel winkel){
-		String id = JOptionPane.showInputDialog("Enter the id:");
-		int idx = -1;
-		boolean gevonden = false;
-		for(int i = 0; i < winkel.itemIds.size() && !gevonden; i++){
-			if(winkel.itemIds.get(i).equals(id)){
-				idx = i;
-				gevonden = true;
-			}
-		}
-		if(gevonden){
-			String daysString = JOptionPane.showInputDialog("Enter the number of days:");
-			int days = Integer.parseInt(daysString);
-			JOptionPane.showMessageDialog(null, winkel.getPrice(idx,days));
-		}
+		int id = askId();
+		int days = askDays();
+		double price = winkel.getPrice(id, days);
+		if(price != -1)
+			JOptionPane.showMessageDialog(null, price);
+		else
+			JOptionPane.showMessageDialog(null, "Item id not found");
 	}
 
 }
