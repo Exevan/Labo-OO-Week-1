@@ -39,6 +39,9 @@ public class Winkel {
 		case "G":
 			item = new Game(title, id);
 			break;
+		case "C":
+			item = new CD(title, id);
+			break;
 		default:
 			return false;
 		}
