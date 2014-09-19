@@ -41,6 +41,13 @@ public abstract class Item {
 		this.rentalDay = null;
 	}
 	
+	public boolean isLeant(){
+		return this.getRentalDay() != null;
+	}
+	
+	/*
+	 * Make sure that you first checked whether the Item actually is leant. Otherwise this wil throw a NullpointerException atm.
+	 */
 	public int getDaysLent(){
 		return DateDifference.daysBetween(this.getRentalDay(), new Date());
 	}
