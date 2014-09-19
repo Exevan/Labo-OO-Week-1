@@ -17,7 +17,7 @@ public class WinkelUI {
 	}
 
 	public void show(Winkel winkel) {
-		String menu = "1. Add item\n2. Show item\n3. Show rental price\n\n0. Quit";
+		String menu = MENU;
 		int choice = -1;
 		while (choice != 0) {
 			String choiceString = JOptionPane.showInputDialog(menu);
@@ -26,8 +26,10 @@ public class WinkelUI {
 				addItem(winkel);
 			} else if (choice == 2) {
 				showItem(winkel);
-			} else if (choice == 3){
+			} else if (choice == 3) {
 				showPrice(winkel);
+			} else if (choice == 4) {
+				showInventory(winkel);
 			}
 		}
 	}
@@ -86,5 +88,14 @@ public class WinkelUI {
 		else
 			JOptionPane.showMessageDialog(null, "Item id not found");
 	}
-
+	
+	public void showInventory(Winkel winkel) {
+		String items = "";
+		for (String item : winkel.getInventory()) {
+			items += (item + "\n");
+		}
+		JOptionPane.showMessageDialog(null, items);
+	}
+	
+	public static final String MENU = "1. Add item\n2. Show item\n3. Show rental price\n4. Show inventory\n\n0. Quit";
 }
