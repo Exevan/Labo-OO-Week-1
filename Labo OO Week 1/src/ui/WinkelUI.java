@@ -2,6 +2,7 @@ package ui;
 
 import javax.swing.JOptionPane;
 
+import util.IO;
 import domain.Winkel;
 
 public class WinkelUI {
@@ -14,6 +15,7 @@ public class WinkelUI {
 		WinkelUI ui = new WinkelUI();
 
 		ui.show(winkel);
+		IO.writeInventory(winkel.getInventory());
 	}
 
 	public void show(Winkel winkel) {
@@ -91,7 +93,7 @@ public class WinkelUI {
 	
 	public void showInventory(Winkel winkel) {
 		String items = "";
-		for (String item : winkel.getInventory()) {
+		for (String item : winkel.getTitles()) {
 			items += (item + "\n");
 		}
 		JOptionPane.showMessageDialog(null, items);

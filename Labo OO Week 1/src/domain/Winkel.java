@@ -30,9 +30,20 @@ public class Winkel {
 			return items.get(itemid).getPrice(days);
 		else
 			return -1;
-	}		
-
+	}
+	
 	public List<String> getInventory() {
+		List<String> items = new ArrayList<String>();
+		for (Item item : this.items.values()) {
+			String rentalDay = "";
+			if (item.getRentalDay() != null)
+				rentalDay = item.getRentalDay().toString();
+			items.add(item.getId() + "\t" + item.getTitle() + "\t" + rentalDay);
+		}
+		return items;
+	}
+
+	public List<String> getTitles() {
 		List<String> items = new ArrayList<String>();
 		for (Item item : this.items.values()) {
 			items.add(item.getTitle());

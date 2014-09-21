@@ -2,6 +2,8 @@ package domain;
 
 import java.util.Date;
 
+import util.DateDiff;
+
 public abstract class Item {
 	
 	protected String title;
@@ -49,7 +51,7 @@ public abstract class Item {
 	 * Make sure that you first checked whether the Item actually is leant. Otherwise this wil throw a NullpointerException atm.
 	 */
 	public int getDaysLent(){
-		return DateDifference.daysBetween(this.getRentalDay(), new Date());
+		return DateDiff.daysBetween(this.getRentalDay(), new Date());
 	}
 	
 	public abstract double getPrice(int days);
