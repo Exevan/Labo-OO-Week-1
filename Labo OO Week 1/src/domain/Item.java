@@ -2,6 +2,7 @@ package domain;
 
 import java.util.Date;
 
+import exc.NotLeantException;
 import util.DateDiff;
 
 public abstract class Item {

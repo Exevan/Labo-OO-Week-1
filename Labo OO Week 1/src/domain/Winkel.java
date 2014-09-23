@@ -32,7 +32,14 @@ public class Winkel {
 			return -1;
 	}
 	
-	public List<String> getInventory() {
+	public List<Item> getInventory() {
+		List<Item> inventory = new ArrayList<Item>();
+		for(Item item : items.values())
+			inventory.add(item);
+		return inventory;
+	}
+	
+	public List<String> getInventoryList() {
 		List<String> items = new ArrayList<String>();
 		for (Item item : this.items.values()) {
 			String rentalDay = "";
