@@ -51,6 +51,7 @@ public class Winkel {
 		return items;
 	}
 
+	@Deprecated
 	public boolean addItem(String title, int id, String type) {
 		Item item;
 		switch (type) {
@@ -67,6 +68,11 @@ public class Winkel {
 			return false;
 		}
 		items.put(id, item);
+		return true;
+	}
+	
+	public boolean addItem(Item item) {
+		items.put(item.getId(), item);
 		return true;
 	}
 }
