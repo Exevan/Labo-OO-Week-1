@@ -47,9 +47,6 @@ public abstract class Item {
 		return this.getRentalDay() != null;
 	}
 	
-	/*
-	 * Make sure that you first check whether the Item actually is leant. Otherwise this will throw a NullpointerException.
-	 */
 	public int getDaysLent() throws NotLeantException{
 		if(this.getRentalDay() == null){
 			throw new NotLeantException();
