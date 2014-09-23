@@ -54,7 +54,7 @@ public class WinkelUI {
 
 	private String askType() {
 		return JOptionPane
-				.showInputDialog("Enter the type (M for movie/G for game):");
+				.showInputDialog("Enter the type (M for movie/G for game/C for CD):");
 	}
 
 	private int askId() {

@@ -57,26 +57,6 @@ public class Winkel {
 		}
 		return items;
 	}
-
-	@Deprecated
-	public boolean addItem(String title, int id, String type) {
-		Item item;
-		switch (type) {
-		case "M":
-			item = new Movie(title, id);
-			break;
-		case "G":
-			item = new Game(title, id);
-			break;
-		case "C":
-			item = new CD(title, id);
-			break;
-		default:
-			return false;
-		}
-		items.put(id, item);
-		return true;
-	}
 	
 	public boolean addItem(Item item) {
 		items.put(item.getId(), item);
