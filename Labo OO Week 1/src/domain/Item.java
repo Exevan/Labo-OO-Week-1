@@ -48,7 +48,7 @@ public abstract class Item {
 	}
 	
 	/*
-	 * Make sure that you first checked whether the Item actually is leant. Otherwise this wil throw a NullpointerException atm.
+	 * Make sure that you first check whether the Item actually is leant. Otherwise this will throw a NullpointerException.
 	 */
 	public int getDaysLent(){
 		return DateDiff.daysBetween(this.getRentalDay(), new Date());

@@ -1,7 +1,7 @@
 package domain;
 
 public class Movie extends Item {
-	
+
 	public Movie(String title, int id) {
 		super(title, id);
 	}
