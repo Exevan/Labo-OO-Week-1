@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import domain.Item;
 
@@ -25,21 +24,29 @@ public class IO {
 	
 	private static List<String> read() {
 		List<String> data = new ArrayList<String>();
-		Scanner scanner = null;
+		BufferedReader reader = null;
 		try {
-			scanner = new Scanner(new File("winkel.txt"));
-			while(scanner.hasNext()) {
-				@SuppressWarnings("unused")
-				String line = scanner.next();
-				System.out.println(line);
+			reader = new BufferedReader(new FileReader(new File("winkel.txt")));
+			String type = "";
+			String line = "";
+			while(line != null) {
+				line = reader.readLine();
+				if(line.equals(""))
+					type = reader.readLine();
+				else
+					data.add(type + " " + line);		
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+		} catch (IOException e)	{	
 		} finally {
-			scanner.close();
+			try {
+				reader.close();
+			} catch (Exception e) {
+			}
 		}
 		return data;
 	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public static void writeInventory(List<Item> inventory)
@@ -49,7 +56,7 @@ public class IO {
 			if(categories.containsKey(item.getClass()))
 				categories.put((Class<Item>) item.getClass(), categories.get(item.getClass()) + item.getTitle() + " " + item.getId() + "\n");
 			else
-				categories.put((Class<Item>) item.getClass(),"\n" + item.getClass().getName() + "\n" + item.getTitle() + " " + item.getId() + "\n");
+				categories.put((Class<Item>) item.getClass(),"\n" + item.getClass().getSimpleName() + "\n" + item.getTitle() + " " + item.getId() + "\n");
 		}
 		Collection<String> data = categories.values();
 		write(data);
