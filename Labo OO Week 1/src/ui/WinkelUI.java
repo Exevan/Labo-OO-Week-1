@@ -15,7 +15,7 @@ public class WinkelUI {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		IO.readInventory();
+		//IO.readInventory();
 		Winkel winkel = new Winkel();
 		WinkelUI ui = new WinkelUI();
 
