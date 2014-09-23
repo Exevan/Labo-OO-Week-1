@@ -62,4 +62,8 @@ public class Winkel {
 		items.put(item.getId(), item);
 		return true;
 	}
+	
+	public Item getItem(int id){
+		return this.items.get(id);
+	}
 }
