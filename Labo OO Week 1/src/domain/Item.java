@@ -43,6 +43,9 @@ public abstract class Item {
 		this.rentalDay = null;
 	}
 	
+	/*
+	 * @returns true when the Item is currently leant. Otherwise this method will return false.
+	 */
 	public boolean isLeant(){
 		return this.getRentalDay() != null;
 	}
