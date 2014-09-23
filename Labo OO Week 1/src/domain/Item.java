@@ -59,5 +59,13 @@ public abstract class Item {
 	}
 	
 	public abstract double getPrice(int days);
-
+	
+	public String toString(){
+		String status = "in inventory";
+		if(this.isLeant()){
+			status = "leant";
+		}
+		return this.getId() + this.getTitle() + status;
+	}
+	
 }
