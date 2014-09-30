@@ -1,69 +1,125 @@
 package domain;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class Winkel {
-
-	private Map<Integer, Item> items;
-
+	
+	public static final String FILMT = "F";
+	public static final String MUZIEKT = "M";
+	public static final String SPELT = "S";
+	public static final String[] TYPES = {FILMT,MUZIEKT,SPELT};
+	
+	private HashMap<Product,Integer> producten; 
+	
 	public Winkel()
 	{
-		items = new HashMap<Integer, Item>();
-	}
-
-	public int nbItems() {
-		return items.size();
-	}
-
-	public String getTitle(int itemid) {
-		if (items.containsKey(itemid))	
-			return items.get(itemid).getTitle();
-		else
-			return "";
-
-	}
-
-	public double getPrice(int itemid, int days) {
-		if (items.containsKey(itemid))	
-			return items.get(itemid).getPrice(days);
-		else
-			return -1;
+		producten = new HashMap<Product,Integer>();
 	}
 	
-	public List<Item> getInventory() {
-		List<Item> inventory = new ArrayList<Item>();
-		for(Item item : items.values())
-			inventory.add(item);
-		return inventory;
-	}
-	
-	public List<String> getInventoryList() {
-		List<String> items = new ArrayList<String>();
-		for (Item item : this.items.values()) {
-			String rentalDay = "";
-			if (item.getRentalDay() != null)
-				rentalDay = item.getRentalDay().toString();
-			items.add(item.getId() + "\t" + item.getTitle() + "\t" + rentalDay);
+	public void voegProductToe(String type, String id, String title)
+		throws DomainException
+	{
+		Product p = null;
+		switch(type)
+		{
+		case FILMT:
+			p = new Film(id, title);
+			break;
+		case MUZIEKT:
+			p = new Muziek(id, title);
+			break;
+		case SPELT:
+			p = new Spel(id, title);
+			break;
+		default:
+			p = null;
+			break;
 		}
-		return items;
+		voegProductToe(p);
+	}
+	
+	public void voegProductToe(Product product)
+			throws DomainException{
+		if(product == null)
+			throw new DomainException("product should not be null");
+		Product zelfdeproduct = getProduct(product.getId());
+		if(zelfdeproduct != null)
+		{
+			int oldvalue = producten.get(zelfdeproduct);
+			producten.put(zelfdeproduct, oldvalue+1);
+		}
+		else
+		{
+			producten.put(product, 1);		
+		}
+		
+	}
+	
+	private Product getProduct(String id)
+	{
+		Set<Product> productenSet = producten.keySet();
+		Product product = null;
+		for(Product p: productenSet)
+		{
+			if(p.getId().equals(id))
+			{
+				product = p;
+			}
+		}
+		return product;		
+	}
+	
+	public String getProductTitle(String id)
+	{
+		String title = "";
+		Product product = getProduct(id);
+		if(product != null)
+		{
+			title = product.getName();
+		}
+		else
+		{
+			title = "no product with this id";
+		}
+		return title;
+	}
+	
+	public double getProductRentalPrice(String id, int nrDays)
+	{
+		double price = 0;
+		Product product = getProduct(id);
+		if(product != null)
+		{
+			price = product.berekenHuurprijs(nrDays);
+		}
+		return price;
+	}
+	
+	public String toString()
+	{
+		String winkelitems = "";
+		Set<Product> productenSet = producten.keySet();
+		for(Product product: productenSet)
+		{
+			winkelitems += product + ": "+producten.get(product)+"\n";
+		}
+		return winkelitems;
+	}
+	
+	public ArrayList<Product> getProducten()
+	{
+		ArrayList<Product> productenlijst = new ArrayList<Product>();
+		Set<Product> productenSet = producten.keySet();
+		for(Product product: productenSet)
+		{
+			for(int i = 0; i < producten.get(product); i++)
+			{
+				productenlijst.add(product);
+			}
+		}
+		return productenlijst;
 	}
 
-	public List<String> getTitles() {
-		List<String> items = new ArrayList<String>();
-		for (Item item : this.items.values()) {
-			items.add(item.getTitle());
-		}
-		return items;
-	}
-	
-	public boolean addItem(Item item) {
-		items.put(item.getId(), item);
-		return true;
-	}
-	
-	public Item getItem(int id){
-		return this.items.get(id);
-	}
 }
