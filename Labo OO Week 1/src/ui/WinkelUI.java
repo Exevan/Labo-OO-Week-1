@@ -3,6 +3,8 @@ package ui;
 import javax.swing.JOptionPane;
 
 import db.DbException;
+import db.WinkelDatabaseLezer;
+import db.WinkelDatabaseSchrijver;
 import db.WinkelDatabaseTekstLezer;
 import db.WinkelDatabaseTekstSchrijver;
 import domain.DomainException;
@@ -18,7 +20,7 @@ public class WinkelUI {
 	{
 		Winkel winkel = new Winkel();
 
-		WinkelDatabaseTekstLezer dblezer = null;
+		WinkelDatabaseLezer dblezer = null;
 		String fileString = JOptionPane.showInputDialog("Waar vinden we uw db-file?");
 		if(fileString != null)
 		{
@@ -63,7 +65,7 @@ public class WinkelUI {
 				}
 			}
 		}
-		WinkelDatabaseTekstSchrijver dbschrijver = null;
+		WinkelDatabaseSchrijver dbschrijver = null;
 		try {
 			dbschrijver = new WinkelDatabaseTekstSchrijver(fileString, winkel);
 		} catch (DbException e) {

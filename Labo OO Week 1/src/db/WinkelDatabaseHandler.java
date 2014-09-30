@@ -4,7 +4,7 @@ import java.io.File;
 
 import domain.Winkel;
 
-public abstract class WinkelDatabaseHandler {
+public class WinkelDatabaseHandler {
 
 	private File bestand;
 	private Winkel winkel;
