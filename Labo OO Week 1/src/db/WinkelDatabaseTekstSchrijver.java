@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import domain.Product;
 import domain.Winkel;
 
-public class WinkelDatabaseSchrijver extends WinkelDatabaseHandler{
+public class WinkelDatabaseTekstSchrijver extends WinkelDatabaseHandler{
 
-	public WinkelDatabaseSchrijver(String filename, Winkel winkel)
+	public WinkelDatabaseTekstSchrijver(String filename, Winkel winkel)
 		throws DbException
 	{
 		super(filename,winkel);

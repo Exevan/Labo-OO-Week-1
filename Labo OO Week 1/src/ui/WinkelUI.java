@@ -3,8 +3,8 @@ package ui;
 import javax.swing.JOptionPane;
 
 import db.DbException;
-import db.WinkelDatabaseLezer;
-import db.WinkelDatabaseSchrijver;
+import db.WinkelDatabaseTekstLezer;
+import db.WinkelDatabaseTekstSchrijver;
 import domain.DomainException;
 import domain.Film;
 import domain.Muziek;
@@ -18,12 +18,12 @@ public class WinkelUI {
 	{
 		Winkel winkel = new Winkel();
 
-		WinkelDatabaseLezer dblezer = null;
+		WinkelDatabaseTekstLezer dblezer = null;
 		String fileString = JOptionPane.showInputDialog("Waar vinden we uw db-file?");
 		if(fileString != null)
 		{
 			try {
-				dblezer = new WinkelDatabaseLezer(fileString, winkel);
+				dblezer = new WinkelDatabaseTekstLezer(fileString, winkel);
 			} catch (DbException e) {
 				JOptionPane.showMessageDialog(null, "cannot read from file");
 			}
@@ -63,9 +63,9 @@ public class WinkelUI {
 				}
 			}
 		}
-		WinkelDatabaseSchrijver dbschrijver = null;
+		WinkelDatabaseTekstSchrijver dbschrijver = null;
 		try {
-			dbschrijver = new WinkelDatabaseSchrijver(fileString, winkel);
+			dbschrijver = new WinkelDatabaseTekstSchrijver(fileString, winkel);
 		} catch (DbException e) {
 			JOptionPane.showMessageDialog(null, "cannot write to file");
 		}

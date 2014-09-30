@@ -10,10 +10,10 @@ import domain.Product;
 import domain.Spel;
 import domain.Winkel;
 
-public class WinkelDatabaseLezer extends WinkelDatabaseHandler {
+public class WinkelDatabaseTekstLezer extends WinkelDatabaseHandler {
 	
 	
-	public WinkelDatabaseLezer(String filename, Winkel winkel)
+	public WinkelDatabaseTekstLezer(String filename, Winkel winkel)
 		throws DbException
 	{
 		super(filename,winkel);
