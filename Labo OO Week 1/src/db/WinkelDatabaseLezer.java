@@ -2,6 +2,6 @@ package db;
 
 public interface WinkelDatabaseLezer {
 
-	public void lees();
+	public void lees() throws DbException;
 	
 }

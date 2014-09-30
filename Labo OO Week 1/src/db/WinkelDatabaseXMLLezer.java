@@ -18,20 +18,20 @@ import domain.Product;
 import domain.Spel;
 import domain.Winkel;
 
-public class WinkelDatabaseXMLLezer extends WinkelDatabaseHandler {
+public class WinkelDatabaseXMLLezer extends WinkelDatabaseHandler implements WinkelDatabaseLezer {
 
 	public WinkelDatabaseXMLLezer(String filename, Winkel winkel)
 			throws DbException {
 		super(filename, winkel);
 	}
-
-	public void lees(String bestandsnaam, Winkel winkel) 
+ 
+	public void lees() 
 			throws DbException{
 		try {
 			// First create a new XMLInputFactory
 			XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 			// Setup a new eventReader
-			InputStream in = new FileInputStream(bestandsnaam);
+			InputStream in = new FileInputStream(getBestand());
 			XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
 			// Read the XML document
 			String type = null;

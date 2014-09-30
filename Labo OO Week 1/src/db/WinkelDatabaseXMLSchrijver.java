@@ -17,14 +17,14 @@ import javax.xml.stream.events.XMLEvent;
 import domain.Product;
 import domain.Winkel;
 
-public class WinkelDatabaseXMLSchrijver extends WinkelDatabaseHandler {
+public class WinkelDatabaseXMLSchrijver extends WinkelDatabaseHandler implements WinkelDatabaseSchrijver {
 
 	public WinkelDatabaseXMLSchrijver(String filename, Winkel winkel)
 			throws DbException {
 		super(filename, winkel);
 	}
 
-	public void schrijf(String bestandsnaam, Winkel winkel) 
+	public void schrijf() 
 			throws DbException{
 		// Create a XMLOutputFactory
 		XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
@@ -32,7 +32,7 @@ public class WinkelDatabaseXMLSchrijver extends WinkelDatabaseHandler {
 		XMLEventWriter eventWriter;
 		try {
 			eventWriter = outputFactory
-					.createXMLEventWriter(new FileOutputStream(bestandsnaam));
+					.createXMLEventWriter(new FileOutputStream(getBestand()));
 		} catch (FileNotFoundException | XMLStreamException e1) {
 			throw new DbException("wrong file");
 		}
@@ -48,7 +48,7 @@ public class WinkelDatabaseXMLSchrijver extends WinkelDatabaseHandler {
 			eventWriter.add(productenStartElement);
 			eventWriter.add(end);
 			// Create product open tag
-			ArrayList<Product> producten = winkel.getProducten();
+			ArrayList<Product> producten = getWinkel().getProducten();
 
 			for(Product product: producten)
 			{

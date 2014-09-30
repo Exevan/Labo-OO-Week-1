@@ -10,7 +10,7 @@ import domain.Product;
 import domain.Spel;
 import domain.Winkel;
 
-public class WinkelDatabaseTekstLezer extends WinkelDatabaseHandler {
+public class WinkelDatabaseTekstLezer extends WinkelDatabaseHandler implements WinkelDatabaseLezer {
 	
 	
 	public WinkelDatabaseTekstLezer(String filename, Winkel winkel)

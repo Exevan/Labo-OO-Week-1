@@ -2,6 +2,6 @@ package db;
 
 public interface WinkelDatabaseSchrijver {
 	
-	public void schrijf();
+	public void schrijf() throws DbException;
 	
 }
