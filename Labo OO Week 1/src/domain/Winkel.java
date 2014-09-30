@@ -54,6 +54,7 @@ public class Winkel {
 	}
 
 	public double getProductRentalPrice(String id, int nrDays) {
+		
 		double price = 0;
 		Product product = getProduct(id);
 		if(product != null)
