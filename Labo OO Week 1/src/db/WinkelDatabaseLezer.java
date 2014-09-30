@@ -4,6 +4,10 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 import domain.DomainException;
+import domain.Film;
+import domain.Muziek;
+import domain.Product;
+import domain.Spel;
 import domain.Winkel;
 
 public class WinkelDatabaseLezer extends WinkelDatabaseHandler {
@@ -30,8 +34,22 @@ public class WinkelDatabaseLezer extends WinkelDatabaseHandler {
 			String type = linescanner.next();
 			String id = linescanner.next();
 			String title = linescanner.next();
+			Product product = null;
 			try {
-				getWinkel().voegProductToe(type, id, title);
+				switch (type) {
+				case "F":
+					product = new Film(id, title);
+					break;
+				case "M":
+					product = new Muziek(id, title);
+					break;
+				case "S":
+					product = new Spel(id, title);
+					break;
+				default:
+					break;
+				}
+				getWinkel().voegProductToe(product);
 			} catch (DomainException e) {
 				throw new DbException("cannot add product available in file");
 			} finally {

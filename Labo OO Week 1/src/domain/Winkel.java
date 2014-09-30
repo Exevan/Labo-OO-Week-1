@@ -1,65 +1,33 @@
 package domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.Set;
 
 public class Winkel {
-	
+
 	public static final String FILMT = "F";
 	public static final String MUZIEKT = "M";
 	public static final String SPELT = "S";
 	public static final String[] TYPES = {FILMT,MUZIEKT,SPELT};
-	
-	private HashMap<Product,Integer> producten; 
-	
+
+	private HashMap<String, Product> producten; 
+
 	public Winkel()
 	{
-		producten = new HashMap<Product,Integer>();
+		producten = new HashMap<String, Product>();
 	}
-	
-	public void voegProductToe(String type, String id, String title)
-		throws DomainException
-	{
-		Product p = null;
-		switch(type)
-		{
-		case FILMT:
-			p = new Film(id, title);
-			break;
-		case MUZIEKT:
-			p = new Muziek(id, title);
-			break;
-		case SPELT:
-			p = new Spel(id, title);
-			break;
-		default:
-			p = null;
-			break;
-		}
-		voegProductToe(p);
-	}
-	
+
 	public void voegProductToe(Product product)
 			throws DomainException{
 		if(product == null)
 			throw new DomainException("product should not be null");
-		Product zelfdeproduct = getProduct(product.getId());
-		if(zelfdeproduct != null)
-		{
-			int oldvalue = producten.get(zelfdeproduct);
-			producten.put(zelfdeproduct, oldvalue+1);
-		}
-		else
-		{
-			producten.put(product, 1);		
-		}
-		
+		if(! producten.containsKey(product.getId()))
+			producten.put(product.getId(), product);				
 	}
-	
-	private Product getProduct(String id)
-	{
-		Set<Product> productenSet = producten.keySet();
+
+	private Product getProduct(String id) {
+		Collection<Product> productenSet = producten.values();
 		Product product = null;
 		for(Product p: productenSet)
 		{
@@ -70,9 +38,8 @@ public class Winkel {
 		}
 		return product;		
 	}
-	
-	public String getProductTitle(String id)
-	{
+
+	public String getProductTitle(String id) {
 		String title = "";
 		Product product = getProduct(id);
 		if(product != null)
@@ -85,9 +52,8 @@ public class Winkel {
 		}
 		return title;
 	}
-	
-	public double getProductRentalPrice(String id, int nrDays)
-	{
+
+	public double getProductRentalPrice(String id, int nrDays) {
 		double price = 0;
 		Product product = getProduct(id);
 		if(product != null)
@@ -96,29 +62,20 @@ public class Winkel {
 		}
 		return price;
 	}
-	
-	public String toString()
-	{
+
+	public String toString() {
 		String winkelitems = "";
-		Set<Product> productenSet = producten.keySet();
+		Collection<Product> productenSet = producten.values();
 		for(Product product: productenSet)
-		{
-			winkelitems += product + ": "+producten.get(product)+"\n";
-		}
+			winkelitems += product +"\n";
 		return winkelitems;
 	}
-	
-	public ArrayList<Product> getProducten()
-	{
+
+	public ArrayList<Product> getProducten() {
 		ArrayList<Product> productenlijst = new ArrayList<Product>();
-		Set<Product> productenSet = producten.keySet();
+		Collection<Product> productenSet = producten.values();
 		for(Product product: productenSet)
-		{
-			for(int i = 0; i < producten.get(product); i++)
-			{
-				productenlijst.add(product);
-			}
-		}
+			productenlijst.add(product);
 		return productenlijst;
 	}
 
