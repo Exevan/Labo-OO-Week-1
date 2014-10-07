@@ -2,7 +2,7 @@ package domain.price;
 
 import domain.Product;
 
-public class GeenKortingStrategy extends KortingHandler implements KortingStrategy {
+public class GeenKortingStrategy extends Korting implements KortingStrategy {
 	
 	public GeenKortingStrategy(Product product) {
 		super(product);
