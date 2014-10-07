@@ -4,8 +4,6 @@ import javax.swing.JOptionPane;
 
 import db.DbException;
 import db.WinkelDatabaseHandler;
-import db.WinkelDatabaseLezer;
-import db.WinkelDatabaseSchrijver;
 import db.WinkelDatabaseTekstLezer;
 import db.WinkelDatabaseTekstSchrijver;
 import db.WinkelDatabaseXMLLezer;
