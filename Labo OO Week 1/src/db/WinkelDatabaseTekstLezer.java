@@ -8,22 +8,20 @@ import domain.Film;
 import domain.Muziek;
 import domain.Product;
 import domain.Spel;
-import domain.Winkel;
 
-public class WinkelDatabaseTekstLezer extends WinkelDatabaseHandler implements WinkelDatabaseLezer {
+public class WinkelDatabaseTekstLezer implements WinkelDatabaseLezer {
 	
+	private WinkelDatabaseHandler handler;
 	
-	public WinkelDatabaseTekstLezer(String filename, Winkel winkel)
-		throws DbException
-	{
-		super(filename,winkel);
+	public WinkelDatabaseTekstLezer(WinkelDatabaseHandler handler){
+		this.handler = handler;
 	}
 
 	public void lees()
 		throws DbException{		
 		Scanner filescanner = null;
 		try {
-			filescanner = new Scanner(getBestand());
+			filescanner = new Scanner(handler.getBestand());
 		} catch (FileNotFoundException e1) {
 			throw new DbException("file not available");
 		}
@@ -49,7 +47,7 @@ public class WinkelDatabaseTekstLezer extends WinkelDatabaseHandler implements W
 				default:
 					break;
 				}
-				getWinkel().voegProductToe(product);
+				handler.getWinkel().voegProductToe(product);
 			} catch (DomainException e) {
 				throw new DbException("cannot add product available in file");
 			} finally {

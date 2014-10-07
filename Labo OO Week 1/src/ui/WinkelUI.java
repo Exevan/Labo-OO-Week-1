@@ -3,6 +3,7 @@ package ui;
 import javax.swing.JOptionPane;
 
 import db.DbException;
+import db.WinkelDatabaseHandler;
 import db.WinkelDatabaseLezer;
 import db.WinkelDatabaseSchrijver;
 import db.WinkelDatabaseTekstLezer;
@@ -21,29 +22,27 @@ public class WinkelUI {
 	public void start() {
 		Winkel winkel = new Winkel();
 
-		WinkelDatabaseLezer dblezer = null;
+		WinkelDatabaseHandler dbhandler = null;
 		int storageType = 0;
 		String fileString = JOptionPane.showInputDialog("Waar vinden we uw db-file?");
+		
+		try {
+			dbhandler = new WinkelDatabaseHandler(fileString, winkel);
+		} catch (DbException e1) {
+			
+		}
+		
 		if (fileString != null) {
 			String input = JOptionPane.showInputDialog("Gebruikt u tekst of xml als opslagmethode?\n\n1. Tekst\n2. XML");
 			storageType = Integer.parseInt(input);
 
-			try {
-				if (storageType == 1) {
-					dblezer = new WinkelDatabaseTekstLezer(fileString, winkel);
-				} else if (storageType == 2) {
-					dblezer = new WinkelDatabaseXMLLezer(fileString, winkel);
-				}
-			} catch (DbException e) {
-				JOptionPane.showMessageDialog(null, "cannot read from file");
-			}
-
-			try {
-				dblezer.lees();
-			} catch (DbException e) {
-				JOptionPane.showMessageDialog(null, "cannot read from file");
+			if (storageType == 1) {
+				dbhandler.setWinkelDatabaseLezer(new WinkelDatabaseTekstLezer(dbhandler));
+			} else if (storageType == 2) {
+				dbhandler.setWinkelDatabaseLezer(new WinkelDatabaseXMLLezer(dbhandler));
 			}
 		}
+		
 
 		String menu = "1. Add item\n" + "2. Show item\n" + "3. Show all items\n" + "4. Show rental price\n" + "\n" + "0. Quit";
 		int choice = -1;
@@ -70,21 +69,13 @@ public class WinkelUI {
 				
 			}
 		}
-		WinkelDatabaseSchrijver dbschrijver = null;
-		try {
-			if (storageType == 1) {
-				dbschrijver = new WinkelDatabaseTekstSchrijver(fileString, winkel);
-			} else if (storageType == 2) {
-				dbschrijver = new WinkelDatabaseXMLSchrijver(fileString, winkel);
-			}
-		} catch (DbException e) {
-			JOptionPane.showMessageDialog(null, "cannot write to file");
+		
+		if (storageType == 1) {
+			dbhandler.setWinkelDatabaseSchrijver(new WinkelDatabaseTekstSchrijver(dbhandler));
+		} else if (storageType == 2) {
+			dbhandler.setWinkelDatabaseSchrijver(new WinkelDatabaseXMLSchrijver(dbhandler));
 		}
-		try {
-			dbschrijver.schrijf();
-		} catch (DbException e) {
-			JOptionPane.showMessageDialog(null, "cannot write to file");
-		}
+		dbhandler.schrijf();
 	}
 
 	private void addItem(Winkel winkel) {

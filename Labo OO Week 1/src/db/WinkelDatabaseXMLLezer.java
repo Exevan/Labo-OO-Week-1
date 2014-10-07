@@ -16,13 +16,13 @@ import domain.Film;
 import domain.Muziek;
 import domain.Product;
 import domain.Spel;
-import domain.Winkel;
 
-public class WinkelDatabaseXMLLezer extends WinkelDatabaseHandler implements WinkelDatabaseLezer {
+public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 
-	public WinkelDatabaseXMLLezer(String filename, Winkel winkel)
-			throws DbException {
-		super(filename, winkel);
+	private WinkelDatabaseHandler handler;
+	
+	public WinkelDatabaseXMLLezer(WinkelDatabaseHandler handler) {
+		this.handler = handler;
 	}
  
 	public void lees() 
@@ -31,7 +31,7 @@ public class WinkelDatabaseXMLLezer extends WinkelDatabaseHandler implements Win
 			// First create a new XMLInputFactory
 			XMLInputFactory inputFactory = XMLInputFactory.newInstance();
 			// Setup a new eventReader
-			InputStream in = new FileInputStream(getBestand());
+			InputStream in = new FileInputStream(handler.getBestand());
 			XMLEventReader eventReader = inputFactory.createXMLEventReader(in);
 			// Read the XML document
 			String type = null;
@@ -78,7 +78,7 @@ public class WinkelDatabaseXMLLezer extends WinkelDatabaseHandler implements Win
 							default:
 								break;
 							}
-							getWinkel().voegProductToe(product);
+							handler.getWinkel().voegProductToe(product);
 						} catch (DomainException e) {
 							throw new DbException("product from file cannot be added");
 						}

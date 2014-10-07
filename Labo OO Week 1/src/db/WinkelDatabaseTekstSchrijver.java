@@ -5,14 +5,14 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import domain.Product;
-import domain.Winkel;
 
-public class WinkelDatabaseTekstSchrijver extends WinkelDatabaseHandler implements WinkelDatabaseSchrijver {
+public class WinkelDatabaseTekstSchrijver implements WinkelDatabaseSchrijver {
 
-	public WinkelDatabaseTekstSchrijver(String filename, Winkel winkel)
-		throws DbException
+	private WinkelDatabaseHandler handler;
+	
+	public WinkelDatabaseTekstSchrijver(WinkelDatabaseHandler handler)
 	{
-		super(filename,winkel);
+		this.handler = handler;
 	}
 
 		
@@ -20,11 +20,11 @@ public class WinkelDatabaseTekstSchrijver extends WinkelDatabaseHandler implemen
 		throws DbException{	
 		PrintWriter schrijver;
 		try{
-			schrijver = new PrintWriter(getBestand());
+			schrijver = new PrintWriter(handler.getBestand());
 		}catch(FileNotFoundException e){
 			throw new DbException("file not available");
 		}
-		ArrayList<Product> producten = getWinkel().getProducten();
+		ArrayList<Product> producten = handler.getWinkel().getProducten();
 		for(Product product: producten)
 		{
 			schrijver.print(product.getType());			
