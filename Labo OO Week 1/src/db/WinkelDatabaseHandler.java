@@ -8,10 +8,8 @@ public class WinkelDatabaseHandler {
 
 	private File bestand;
 	private Winkel winkel;
-	
-	public WinkelDatabaseHandler(String filename, Winkel winkel)
-		throws DbException
-	{
+
+	public WinkelDatabaseHandler(String filename, Winkel winkel) throws DbException {
 		setBestand(filename);
 		setWinkel(winkel);
 	}
@@ -20,16 +18,14 @@ public class WinkelDatabaseHandler {
 		return bestand;
 	}
 
-	private void setBestand(String filename) 
-		throws DbException{
-		try{
+	private void setBestand(String filename) throws DbException {
+		try {
 			this.bestand = new File(filename);
-		}catch(NullPointerException e)
-		{
+		} catch (NullPointerException e) {
 			throw new DbException("file not valid");
-		}		
+		}
 	}
-	
+
 	public Winkel getWinkel() {
 		return winkel;
 	}
