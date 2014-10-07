@@ -27,7 +27,7 @@ public class WinkelUI {
 		try {
 			dbhandler = new WinkelDatabaseHandler(fileString, winkel);
 		} catch (DbException e1) {
-			
+			//TODO: Display message.
 		}
 		
 		if (fileString != null) {
@@ -38,6 +38,12 @@ public class WinkelUI {
 				dbhandler.setWinkelDatabaseLezer(new WinkelDatabaseTekstLezer(dbhandler));
 			} else if (storageType == 2) {
 				dbhandler.setWinkelDatabaseLezer(new WinkelDatabaseXMLLezer(dbhandler));
+			}
+			
+			try {
+				dbhandler.lees();
+			} catch (DbException e) {
+				//TODO: Display message
 			}
 		}
 		
@@ -73,7 +79,12 @@ public class WinkelUI {
 		} else if (storageType == 2) {
 			dbhandler.setWinkelDatabaseSchrijver(new WinkelDatabaseXMLSchrijver(dbhandler));
 		}
-		dbhandler.schrijf();
+		
+		try {
+			dbhandler.schrijf();
+		} catch (DbException e) {
+			//TODO: Display message
+		}
 	}
 
 	private void addItem(Winkel winkel) {

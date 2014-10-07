@@ -8,7 +8,7 @@ public class WinkelDatabaseHandler {
 
 	private File bestand;
 	private Winkel winkel;
-	
+
 	private WinkelDatabaseLezer wbl = null;
 	private WinkelDatabaseSchrijver wbs = null;
 
@@ -36,29 +36,21 @@ public class WinkelDatabaseHandler {
 	private void setWinkel(Winkel winkel) {
 		this.winkel = winkel;
 	}
-	
-	public void setWinkelDatabaseLezer(WinkelDatabaseLezer lezer){
+
+	public void setWinkelDatabaseLezer(WinkelDatabaseLezer lezer) {
 		this.wbl = lezer;
 	}
-	
-	public void setWinkelDatabaseSchrijver(WinkelDatabaseSchrijver schrijver){
+
+	public void setWinkelDatabaseSchrijver(WinkelDatabaseSchrijver schrijver) {
 		this.wbs = schrijver;
 	}
 
-	public void schrijf(){
-		try {
-			wbs.schrijf();
-		} catch (DbException e) {
-			
-		}
+	public void schrijf() throws DbException {
+		wbs.schrijf();
 	}
-	
-	public void lees(){
-		try {
-			wbl.lees();
-		} catch (DbException e) {
-		
-		}
+
+	public void lees() throws DbException {
+		wbl.lees();
 	}
-	
+
 }
