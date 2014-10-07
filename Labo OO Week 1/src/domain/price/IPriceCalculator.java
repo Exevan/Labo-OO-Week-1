@@ -1,9 +1,9 @@
 package domain.price;
 
-import domain.Winkel;
+import domain.Product;
 
 public interface IPriceCalculator {
 	
-	public double calculatePrice(String id, int days, Winkel winkel);
+	public double calculatePrice(Product product, int days);
 
 }
