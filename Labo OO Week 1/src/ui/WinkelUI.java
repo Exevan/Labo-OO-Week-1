@@ -53,16 +53,21 @@ public class WinkelUI {
 			if (choiceString == null) {
 				choice = 0;
 			} else {
-				choice = Integer.parseInt(choiceString);
-				if (choice == 1) {
-					addItem(winkel);
-				} else if (choice == 2) {
-					showItem(winkel);
-				} else if (choice == 3) {
-					showItems(winkel);
-				} else if (choice == 4) {
-					showPrice(winkel);
+				try{
+					choice = Integer.parseInt(choiceString);
+					if (choice == 1) {
+						addItem(winkel);
+					} else if (choice == 2) {
+						showItem(winkel);
+					} else if (choice == 3) {
+						showItems(winkel);
+					} else if (choice == 4) {
+						showPrice(winkel);
+					}
+				}catch(NumberFormatException e){
+					JOptionPane.showMessageDialog(null, "Please enter the number of your choice.");
 				}
+				
 			}
 		}
 		WinkelDatabaseSchrijver dbschrijver = null;
