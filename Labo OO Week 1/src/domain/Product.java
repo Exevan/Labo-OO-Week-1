@@ -1,16 +1,18 @@
 package domain;
 
+import domain.price.KortingStrategy;
+
 public abstract class Product {
 
+	private KortingStrategy korting;
+	
 	private String id;
 	private String name;
 	
 	public Product(String id, String name)
-		throws DomainException
-	{
+		throws DomainException {
 		setId(id);
 		setName(name);
-
 	}
 
 	public String getId() {
@@ -37,6 +39,18 @@ public abstract class Product {
 		this.name = name;
 	}
 	
+	public KortingStrategy getKorting() {
+		return korting;
+	}
+
+	public void setKorting(KortingStrategy korting) {
+		this.korting = korting;
+	}
+	
+	public double berekenKorting(int aantalDagen) {
+		return korting.berekenKorting(this, aantalDagen);
+	}
+
 	public abstract String getType();
 	public abstract double berekenHuurprijs(int aantalDagen);
 	
