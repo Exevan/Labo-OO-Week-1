@@ -19,13 +19,18 @@ public class VerwijderdState extends State implements ProductState {
 	}
 
 	@Override
-	public double herstel(Product product) {
-		return 0.0;
+	public boolean herstel(Product product) {
+		return false;
 	}
 
 	@Override
 	public void verwijder(Product product) {
 
+	}
+	
+	@Override
+	public String toString() {
+		return "verwijderd";
 	}
 
 }

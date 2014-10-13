@@ -57,7 +57,8 @@ public class WinkelDatabaseXMLSchrijver implements WinkelDatabaseSchrijver {
 				// Write the different nodes
 				createNode(eventWriter, XmlTags.TYPE, product.getType());
 				createNode(eventWriter, XmlTags.ID, product.getId());
-				createNode(eventWriter, XmlTags.TITLE, product.getName());
+				createNode(eventWriter, XmlTags.TITLE, product.getNaam());
+				createNode(eventWriter, XmlTags.BASEPRICE, "" + product.getBasisprijs());
 				eventWriter.add(eventFactory.createEndElement("", "",XmlTags.PRODUCT));
 				eventWriter.add(end);
 			}

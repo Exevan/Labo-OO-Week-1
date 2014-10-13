@@ -17,19 +17,29 @@ import domain.Winkel;
 
 public class WinkelUI {
 
+	private static final String MENU = "1. Add item\n" 
+			+ "2. Show item\n" 
+			+ "3. Show all items\n" 
+			+ "4. Show rental price\n"
+			+ "5. Rent product\n"
+			+ "6. Return product\n"
+			+ "7. Repair product\n"
+			+ "\n" 
+			+ "0. Quit";
+
 	public void start() {
 		Winkel winkel = new Winkel();
 
 		WinkelDatabaseHandler dbhandler = null;
 		int storageType = 0;
 		String fileString = JOptionPane.showInputDialog("Waar vinden we uw db-file?");
-		
+
 		try {
 			dbhandler = new WinkelDatabaseHandler(fileString, winkel);
 		} catch (DbException e1) {
 			//TODO: Display message.
 		}
-		
+
 		if (fileString != null) {
 			String input = JOptionPane.showInputDialog("Gebruikt u tekst of xml als opslagmethode?\n\n1. Tekst\n2. XML");
 			storageType = Integer.parseInt(input);
@@ -39,16 +49,16 @@ public class WinkelUI {
 			} else if (storageType == 2) {
 				dbhandler.setWinkelDatabaseLezer(new WinkelDatabaseXMLLezer(dbhandler));
 			}
-			
+
 			try {
 				dbhandler.lees();
 			} catch (DbException e) {
 				//TODO: Display message
 			}
 		}
-		
 
-		String menu = "1. Add item\n" + "2. Show item\n" + "3. Show all items\n" + "4. Show rental price\n" + "\n" + "0. Quit";
+
+		String menu = MENU;
 		int choice = -1;
 		while (choice != 0) {
 			String choiceString = JOptionPane.showInputDialog(menu);
@@ -66,20 +76,26 @@ public class WinkelUI {
 						showItems(winkel);
 					} else if (choice == 4) {
 						showPrice(winkel);
+					} else if (choice == 5) {
+						rentProduct(winkel);
+					} else if (choice == 6) {
+						returnProduct(winkel);
+					} else if (choice == 7) {
+						repairProduct(winkel);
 					}
 				}catch(NumberFormatException e){
 					JOptionPane.showMessageDialog(null, "Please enter the number of your choice.");
 				}
-				
+
 			}
 		}
-		
+
 		if (storageType == 1) {
 			dbhandler.setWinkelDatabaseSchrijver(new WinkelDatabaseTekstSchrijver(dbhandler));
 		} else if (storageType == 2) {
 			dbhandler.setWinkelDatabaseSchrijver(new WinkelDatabaseXMLSchrijver(dbhandler));
 		}
-		
+
 		try {
 			dbhandler.schrijf();
 		} catch (DbException e) {
@@ -87,22 +103,39 @@ public class WinkelUI {
 		}
 	}
 
+	private String askTitle() {
+		return JOptionPane.showInputDialog("Enter the title:");
+	}
+
+	private String askId() {
+		return JOptionPane.showInputDialog("Enter the id:");
+	}
+
+	private Object askType() {
+		return JOptionPane.showInputDialog(null, "What type:", "Possible types", JOptionPane.QUESTION_MESSAGE, null, Winkel.TYPES, null);
+	}
+
+	private int askBasePrice() {
+		return Integer.parseInt(JOptionPane.showInputDialog("Enter the product's base price:"));
+	}
+
 	private void addItem(Winkel winkel) {
-		String title = JOptionPane.showInputDialog("Enter the title:");
-		String id = JOptionPane.showInputDialog("Enter the id:");
-		Object choice = JOptionPane.showInputDialog(null, "What type:", "Possible types", JOptionPane.QUESTION_MESSAGE, null, Winkel.TYPES, null);
+		String title = askTitle();
+		String id = askId();
+		Object choice = askType();
+		int basisPrijs = askBasePrice();
 		String type = (String) choice;
 		Product product = null;
 		try {
 			switch (type) {
 			case "F":
-				product = new Film(id, title);
+				product = new Film(id, title, basisPrijs);
 				break;
 			case "M":
-				product = new Muziek(id, title);
+				product = new Muziek(id, title, basisPrijs);
 				break;
 			case "S":
-				product = new Spel(id, title);
+				product = new Spel(id, title, basisPrijs);
 				break;
 			default:
 				break;
@@ -115,7 +148,7 @@ public class WinkelUI {
 
 	private void showItem(Winkel winkel) {
 		String id = JOptionPane.showInputDialog("Enter the id:");
-		JOptionPane.showMessageDialog(null, winkel.getProductTitle(id));
+		JOptionPane.showMessageDialog(null, winkel.getTitel(id));
 	}
 
 	private void showItems(Winkel winkel) {
@@ -124,9 +157,27 @@ public class WinkelUI {
 
 	private void showPrice(Winkel winkel) {
 		String id = JOptionPane.showInputDialog("Enter the id:");
-		String daysString = JOptionPane.showInputDialog("Enter the number of days:");
-		int days = Integer.parseInt(daysString);
-		JOptionPane.showMessageDialog(null, "Huurprijs: " + winkel.getProductRentalPrice(id, days) + "euro.");
+		int dagen = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of days:"));
+		JOptionPane.showMessageDialog(null, "Huurprijs: " + winkel.getHuurPrijs(id, dagen) + "euro.");
 	}
 
+	private void rentProduct(Winkel winkel) {
+		winkel.leenProductUit(JOptionPane.showInputDialog("Enter id:"));
+	}
+
+	private void returnProduct(Winkel winkel) {
+		String id = JOptionPane.showInputDialog("Enter id:");
+		boolean beschadigd = (0 == JOptionPane.showOptionDialog(null, "Is the product damaged?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null));
+		winkel.brengProductTerug(id, beschadigd);
+	}
+	
+	private void repairProduct(Winkel winkel) {
+		String id = JOptionPane.showInputDialog("Enter id:");
+		boolean hersteld = winkel.herstelProduct(id);
+		double herstelPrijs = winkel.getHerstelPrijs(id);
+		if(hersteld)
+			JOptionPane.showMessageDialog(null, "Product is gerepareerd\n Herstelprijs: " + herstelPrijs);
+		else
+			JOptionPane.showMessageDialog(null, "Product is niet gerepareerd en wordt verwijderd\n Herstelprijs: " + herstelPrijs);
+	}
 }

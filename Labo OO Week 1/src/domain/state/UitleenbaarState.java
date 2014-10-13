@@ -19,13 +19,18 @@ public class UitleenbaarState extends State implements ProductState {
 	}
 
 	@Override
-	public double herstel(Product product) {
-		return 0.0;
+	public boolean herstel(Product product) {
+		return false;
 	}
 
 	@Override
 	public void verwijder(Product product) {
 		product.setStaat(new VerwijderdState(product));
+	}
+	
+	@Override
+	public String toString() {
+		return "uitleenbaar";
 	}
 
 }

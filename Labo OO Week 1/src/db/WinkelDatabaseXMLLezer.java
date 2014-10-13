@@ -37,6 +37,7 @@ public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 			String type = null;
 			String id = null;
 			String title = null;
+			int basisprijs = 0;
 
 			while (eventReader.hasNext()) {
 				XMLEvent event = eventReader.nextEvent();
@@ -58,6 +59,10 @@ public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 						event = eventReader.nextEvent();
 						title = event.asCharacters().getData();
 					}
+					else if (sE.getName().getLocalPart().equals(XmlTags.BASEPRICE)) {
+						event = eventReader.nextEvent();
+						basisprijs = Integer.parseInt(event.asCharacters().getData());
+					}
 				}		       
 				// If we reach the end of an item element we add it to the list
 				else if (event.isEndElement()) {
@@ -67,13 +72,13 @@ public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 						try {
 							switch (type) {
 							case "F":
-								product = new Film(id, title);
+								product = new Film(id, title, basisprijs);
 								break;
 							case "M":
-								product = new Muziek(id, title);
+								product = new Muziek(id, title, basisprijs);
 								break;
 							case "S":
-								product = new Spel(id, title);
+								product = new Spel(id, title, basisprijs);
 								break;
 							default:
 								break;

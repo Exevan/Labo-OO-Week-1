@@ -11,12 +11,15 @@ public abstract class Product {
 	private KortingStrategy korting;
 
 	private String id;
-	private String name;
+	private String naam;
+	private int basisprijs;
 
-	public Product(String id, String name)
-			throws DomainException {
+	public Product(String id, String name, int basisprijs)
+			throws DomainException 
+	{
 		setId(id);
-		setName(name);
+		setNaam(name);
+		setBasisprijs(basisprijs);
 		setStaat(new UitleenbaarState(this));
 		setKorting(new GeenKortingStrategy(this));;
 	}
@@ -26,27 +29,39 @@ public abstract class Product {
 	}
 
 	private void setId(String id) 
-			throws DomainException
+			throws DomainException 
 	{
 		if(id == null)
 			throw new DomainException("provide valid id");
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getNaam() {
+		return naam;
 	}
 
-	private void setName(String name) 
+	private void setNaam(String naam) 
 			throws DomainException
 	{
-		if(name == null)
+		if(naam == null)
 			throw new DomainException("provide valid name");
-		this.name = name;
+		this.naam = naam;
 	}
 
-	public ProductState getStaat() {
-		return staat;
+	public int getBasisprijs() {
+		return basisprijs;
+	}
+
+	public void setBasisprijs(int basisprijs) 
+		throws DomainException
+	{
+		if(basisprijs <= 0)
+			throw new DomainException("provide valid base price");
+		this.basisprijs = basisprijs;
+	}
+
+	public String getStaat() {
+		return staat.toString();
 	}
 
 	public void setStaat(ProductState staat) {
@@ -61,8 +76,8 @@ public abstract class Product {
 		staat.brengTerug(this, beschadigd);
 	}
 
-	public void herstel(boolean beschadigd) {
-		staat.herstel(this);
+	public boolean herstel() {
+		return staat.herstel(this);
 	}
 
 	public void verwijder() {

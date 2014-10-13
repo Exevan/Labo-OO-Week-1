@@ -26,6 +26,19 @@ public class Winkel {
 			producten.put(product.getId(), product);				
 	}
 
+	public void leenProductUit(String id) {
+		producten.get(id).leenUit();
+	}
+
+	public void brengProductTerug(String id, boolean beschadigd) {
+		producten.get(id).brengTerug(false);
+	}
+	
+	public boolean herstelProduct(String id) {
+		return producten.get(id).herstel();
+	}
+	
+
 	private Product getProduct(String id) {
 		Collection<Product> productenSet = producten.values();
 		Product product = null;
@@ -39,12 +52,12 @@ public class Winkel {
 		return product;		
 	}
 
-	public String getProductTitle(String id) {
+	public String getTitel(String id) {
 		String title = "";
 		Product product = getProduct(id);
 		if(product != null)
 		{
-			title = product.getName();
+			title = product.getNaam();
 		}
 		else
 		{
@@ -53,8 +66,8 @@ public class Winkel {
 		return title;
 	}
 
-	public double getProductRentalPrice(String id, int nrDays) {
-		
+	public double getHuurPrijs(String id, int nrDays) {
+
 		double price = 0;
 		Product product = getProduct(id);
 		if(product != null)
@@ -62,6 +75,10 @@ public class Winkel {
 			price = product.berekenHuurprijs(nrDays);
 		}
 		return price;
+	}
+	
+	public double getHerstelPrijs(String id) {
+		return producten.get(id).getBasisprijs() / 3;
 	}
 
 	public String toString() {

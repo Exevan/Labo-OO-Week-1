@@ -2,9 +2,9 @@ package domain;
 
 public class Film extends Product {
 
-	public Film(String id, String name) 
+	public Film(String id, String name, int basisPrijs) 
 			throws DomainException {
-		super(id, name);
+		super(id, name, basisPrijs);
 	}	
 	
 	@Override
@@ -19,7 +19,7 @@ public class Film extends Product {
 	
 	public String toString()
 	{
-		return "film - "+getName();
+		return "film - "+getNaam();
 	}
 
 	@Override

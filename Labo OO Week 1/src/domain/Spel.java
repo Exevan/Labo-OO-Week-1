@@ -2,8 +2,9 @@ package domain;
 
 public class Spel extends Product {
 
-	public Spel(String id, String name) throws DomainException {
-		super(id, name);
+	public Spel(String id, String name, int basisPrijs) 
+			throws DomainException {
+		super(id, name, basisPrijs);
 	}
 
 	@Override
@@ -14,7 +15,7 @@ public class Spel extends Product {
 	
 	public String toString()
 	{
-		return "spel - "+getName();
+		return "spel - "+getNaam();
 	}
 
 	@Override

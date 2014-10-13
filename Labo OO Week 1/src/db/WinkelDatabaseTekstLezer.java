@@ -32,17 +32,18 @@ public class WinkelDatabaseTekstLezer implements WinkelDatabaseLezer {
 			String type = linescanner.next();
 			String id = linescanner.next();
 			String title = linescanner.next();
+			int basisprijs = Integer.parseInt(linescanner.next());
 			Product product = null;
 			try {
 				switch (type) {
 				case "F":
-					product = new Film(id, title);
+					product = new Film(id, title, basisprijs);
 					break;
 				case "M":
-					product = new Muziek(id, title);
+					product = new Muziek(id, title, basisprijs);
 					break;
 				case "S":
-					product = new Spel(id, title);
+					product = new Spel(id, title, basisprijs);
 					break;
 				default:
 					break;

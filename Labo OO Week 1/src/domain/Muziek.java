@@ -2,8 +2,9 @@ package domain;
 
 public class Muziek extends Product {
 
-	public Muziek(String id, String name) throws DomainException {
-		super(id, name);
+	public Muziek(String id, String name, int basisPrijs) 
+			throws DomainException {
+		super(id, name, basisPrijs);
 	}
 
 	@Override
@@ -14,7 +15,7 @@ public class Muziek extends Product {
 	
 	public String toString()
 	{
-		return "cd - "+getName();
+		return "cd - "+getNaam();
 	}
 
 	@Override

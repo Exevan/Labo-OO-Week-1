@@ -27,13 +27,19 @@ public class WinkelDatabaseTekstSchrijver implements WinkelDatabaseSchrijver {
 		ArrayList<Product> producten = handler.getWinkel().getProducten();
 		for(Product product: producten)
 		{
+			if(product.getStaat().equals("verwijderd"))
+				continue;
+			
 			schrijver.print(product.getType());			
 			schrijver.print("\t");
 			//id
 			schrijver.print(product.getId());
 			schrijver.print("\t");
 			//title
-			schrijver.println(product.getName());
+			schrijver.println(product.getNaam());
+			schrijver.print("\t");
+			//basisprijs
+			schrijver.println(product.getBasisprijs());
 		}
 		schrijver.close();		
 	}
