@@ -52,7 +52,7 @@ public class WinkelUI {
 
 			try {
 				dbhandler.lees();
-			} catch (DbException e) {
+			} catch (Exception e) {
 				//TODO: Display message
 			}
 		}
@@ -90,6 +90,9 @@ public class WinkelUI {
 			}
 		}
 
+		String input = JOptionPane.showInputDialog("Gebruikt u tekst of xml als opslagmethode?\n\n1. Tekst\n2. XML");
+		storageType = Integer.parseInt(input);
+		
 		if (storageType == 1) {
 			dbhandler.setWinkelDatabaseSchrijver(new WinkelDatabaseTekstSchrijver(dbhandler));
 		} else if (storageType == 2) {
@@ -98,7 +101,7 @@ public class WinkelUI {
 
 		try {
 			dbhandler.schrijf();
-		} catch (DbException e) {
+		} catch (Exception e) {
 			//TODO: Display message
 		}
 	}
