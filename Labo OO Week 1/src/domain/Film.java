@@ -21,7 +21,8 @@ public class Film extends Product {
 		if (daysLeft > 0) {
 			huurprijs += (daysLeft * 2);
 		}
-		return huurprijs;
+		double korting = berekenKorting(aantalDagen, huurprijs);
+		return huurprijs - korting;
 	}
 
 	public String toString()

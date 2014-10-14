@@ -9,7 +9,7 @@ public class GeenKortingStrategy extends Korting implements KortingStrategy {
 	}
 
 	@Override
-	public double berekenKorting(Product product, int days) {
+	public double berekenKorting(Product product, int days, double prijs) {
 		return 0;
 	}
 

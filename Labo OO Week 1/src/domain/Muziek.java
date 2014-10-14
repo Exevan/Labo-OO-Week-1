@@ -17,7 +17,8 @@ public class Muziek extends Product {
 	@Override
 	public double berekenHuurprijs(int aantalDagen) {
 		double huurprijs = aantalDagen * 1.5;
-		return huurprijs;
+		double korting = berekenKorting(aantalDagen, huurprijs);
+		return huurprijs - korting;
 	}
 	
 	public String toString()

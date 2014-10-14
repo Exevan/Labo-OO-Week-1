@@ -9,8 +9,8 @@ public class KwantumKortingStrategy extends Korting implements KortingStrategy {
 	}
 
 	@Override
-	public double berekenKorting(Product product, int days) {
-		return product.berekenHuurprijs(days) - days;
+	public double berekenKorting(Product product, int days, double prijs) {
+		return prijs - days;
 	}
 
 }

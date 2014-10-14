@@ -17,7 +17,8 @@ public class Spel extends Product {
 	@Override
 	public double berekenHuurprijs(int aantalDagen) {
 		double huurprijs = aantalDagen * 3;
-		return huurprijs;
+		double korting = berekenKorting(aantalDagen, huurprijs);
+		return huurprijs - korting;
 	}
 	
 	public String toString()

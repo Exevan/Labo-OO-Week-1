@@ -77,19 +77,19 @@ public abstract class Product {
 		this.staat = staat;
 	}
 
-	public void leenUit() {
+	public void leenUit() throws DomainException {
 		staat.leenUit(this);
 	}
 
-	public void brengTerug(boolean beschadigd) {
+	public void brengTerug(boolean beschadigd) throws DomainException {
 		staat.brengTerug(this, beschadigd);
 	}
 
-	public boolean herstel() {
+	public boolean herstel() throws DomainException {
 		return staat.herstel(this);
 	}
 
-	public void verwijder() {
+	public void verwijder() throws DomainException {
 		staat.verwijder(this);
 	}
 
@@ -101,8 +101,8 @@ public abstract class Product {
 		this.korting = korting;
 	}
 
-	public double berekenKorting(int aantalDagen) {
-		return korting.berekenKorting(this, aantalDagen);
+	public double berekenKorting(int aantalDagen, double prijs) {
+		return korting.berekenKorting(this, aantalDagen, prijs);
 	}
 
 	public abstract String getType();

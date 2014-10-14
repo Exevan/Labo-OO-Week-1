@@ -1,11 +1,18 @@
 package domain.state;
 
+import domain.DomainException;
 import domain.Product;
 
 public class UitleenbaarState implements ProductState {
 	
 	@Override
-	public void leenUit(Product product) {
+	public void leenUit(Product product) throws DomainException {
+		if(product.getStaat().equals(UitgeleendState.class))
+			throw new DomainException("Product is al uitgeleend");
+		if(product.getStaat().equals(BeschadigdState.class))
+			throw new DomainException("Product is beschadigd");
+		if(product.getStaat().equals(VerwijderdState.class))
+			throw new DomainException("Product is niet meer beschikbaar");
 		product.setStaat(new UitgeleendState());
 	}
 

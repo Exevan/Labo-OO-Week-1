@@ -9,8 +9,8 @@ public class RegularCustomeKortingSTrategy extends Korting implements KortingStr
 	}
 
 	@Override
-	public double berekenKorting(Product product, int days) {
-		return 0.25 * product.berekenHuurprijs(days);
+	public double berekenKorting(Product product, int days, double prijs) {
+		return 0.25 * prijs;
 	}
 
 }

@@ -92,7 +92,7 @@ public class WinkelUI {
 
 		String input = JOptionPane.showInputDialog("Gebruikt u tekst of xml als opslagmethode?\n\n1. Tekst\n2. XML");
 		storageType = Integer.parseInt(input);
-		
+
 		if (storageType == 1) {
 			dbhandler.setWinkelDatabaseSchrijver(new WinkelDatabaseTekstSchrijver(dbhandler));
 		} else if (storageType == 2) {
@@ -118,8 +118,16 @@ public class WinkelUI {
 		return JOptionPane.showInputDialog(null, "What type:", "Possible types", JOptionPane.QUESTION_MESSAGE, null, Winkel.TYPES, null);
 	}
 
+	private int askDays() {
+		return Integer.parseInt(JOptionPane.showInputDialog("Enter the number of days:"));
+	}
+
 	private int askBasePrice() {
 		return Integer.parseInt(JOptionPane.showInputDialog("Enter the product's base price:"));
+	}
+
+	private int askKorting(String id, Winkel winkel) {
+		return Integer.parseInt(JOptionPane.showInputDialog("Kies een korting:\n + 1. Geen korting\n 2. Regular customer korting\n 3. Kwantumkorting"));
 	}
 
 	private void addItem(Winkel winkel) {
@@ -150,7 +158,7 @@ public class WinkelUI {
 	}
 
 	private void showItem(Winkel winkel) {
-		String id = JOptionPane.showInputDialog("Enter the id:");
+		String id = askId();
 		JOptionPane.showMessageDialog(null, winkel.getTitel(id));
 	}
 
@@ -159,24 +167,49 @@ public class WinkelUI {
 	}
 
 	private void showPrice(Winkel winkel) {
-		String id = JOptionPane.showInputDialog("Enter the id:");
-		int dagen = Integer.parseInt(JOptionPane.showInputDialog("Enter the number of days:"));
-		JOptionPane.showMessageDialog(null, "Huurprijs: " + winkel.getHuurPrijs(id, dagen) + "euro.");
+		String id = askId();
+		int type =askKorting(id, winkel);
+		int dagen = askDays();
+		winkel.setKorting(id, type);
+		JOptionPane.showMessageDialog(null, "Huurprijs: " + winkel.getHuurPrijs(id, dagen) + " euro.");
 	}
 
 	private void rentProduct(Winkel winkel) {
-		winkel.leenProductUit(JOptionPane.showInputDialog("Enter id:"));
+		String id = JOptionPane.showInputDialog("Enter the id:");
+		int type = askKorting(id, winkel);
+		int dagen = askDays();
+		double prijs = winkel.getHuurPrijs(id, dagen);
+		winkel.setKorting(id, type);
+		JOptionPane.showMessageDialog(null, "Product " + id + " wordt uitgeleend voor " + dagen + ".\nPrijs: " + prijs + " euro");
+		try {
+			winkel.leenProductUit(id);
+		} catch (DomainException e) {
+			// TODO Auto-generated catch block
+
+			return;
+		}
 	}
 
 	private void returnProduct(Winkel winkel) {
 		String id = JOptionPane.showInputDialog("Enter id:");
 		boolean beschadigd = (0 == JOptionPane.showOptionDialog(null, "Is the product damaged?", "", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null));
-		winkel.brengProductTerug(id, beschadigd);
+		try {
+			winkel.brengProductTerug(id, beschadigd);
+		} catch (DomainException e) {
+			// TODO Auto-generated catch block
+			return;
+		}
 	}
-	
+
 	private void repairProduct(Winkel winkel) {
 		String id = JOptionPane.showInputDialog("Enter id:");
-		boolean hersteld = winkel.herstelProduct(id);
+		boolean hersteld;
+		try {
+			hersteld = winkel.herstelProduct(id);
+		} catch (DomainException e) {
+			// TODO Auto-generated catch block
+			return;
+		}
 		double herstelPrijs = winkel.getHerstelPrijs(id);
 		if(hersteld)
 			JOptionPane.showMessageDialog(null, "Product is gerepareerd\n Herstelprijs: " + herstelPrijs);

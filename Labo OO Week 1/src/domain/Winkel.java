@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import domain.price.GeenKortingStrategy;
+import domain.price.KwantumKortingStrategy;
+import domain.price.RegularCustomeKortingSTrategy;
+
 public class Winkel {
 
 	public static final String FILMT = "F";
@@ -26,18 +30,18 @@ public class Winkel {
 			producten.put(product.getId(), product);				
 	}
 
-	public void leenProductUit(String id) {
+	public void leenProductUit(String id) throws DomainException {
 		producten.get(id).leenUit();
 	}
 
-	public void brengProductTerug(String id, boolean beschadigd) {
-		producten.get(id).brengTerug(false);
+	public void brengProductTerug(String id, boolean beschadigd) throws DomainException {
+		producten.get(id).brengTerug(beschadigd);
 	}
-	
-	public boolean herstelProduct(String id) {
+
+	public boolean herstelProduct(String id) throws DomainException {
 		return producten.get(id).herstel();
 	}
-	
+
 
 	private Product getProduct(String id) {
 		Collection<Product> productenSet = producten.values();
@@ -76,9 +80,26 @@ public class Winkel {
 		}
 		return price;
 	}
-	
+
 	public double getHerstelPrijs(String id) {
 		return producten.get(id).getBasisprijs() / 3;
+	}
+
+	public void setKorting(String id, int type) {
+		Product product = getProduct(id);
+		switch (type) {
+		case 1:
+			product.setKorting(new GeenKortingStrategy(product));
+			break;
+		case 2:
+			product.setKorting(new RegularCustomeKortingSTrategy(product));
+			break;
+		case 3:
+			product.setKorting(new KwantumKortingStrategy(product));
+			break;
+		default:
+			break;
+		}
 	}
 
 	public String toString() {

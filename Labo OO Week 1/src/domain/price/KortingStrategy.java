@@ -4,6 +4,6 @@ import domain.Product;
 
 public interface KortingStrategy {
 	
-	public double berekenKorting(Product product, int days);
+	public double berekenKorting(Product product, int days, double prijs);
 
 }
