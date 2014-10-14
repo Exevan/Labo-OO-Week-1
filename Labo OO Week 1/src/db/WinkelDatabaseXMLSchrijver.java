@@ -15,6 +15,7 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import domain.Product;
+import domain.state.VerwijderdState;
 
 public class WinkelDatabaseXMLSchrijver implements WinkelDatabaseSchrijver {
 
@@ -52,6 +53,8 @@ public class WinkelDatabaseXMLSchrijver implements WinkelDatabaseSchrijver {
 
 			for(Product product: producten)
 			{
+				if(product.getStaat().getClass().equals(VerwijderdState.class))
+					continue;
 				eventWriter.add(eventFactory.createStartElement("","",XmlTags.PRODUCT));
 				eventWriter.add(end);
 				// Write the different nodes
@@ -59,6 +62,7 @@ public class WinkelDatabaseXMLSchrijver implements WinkelDatabaseSchrijver {
 				createNode(eventWriter, XmlTags.ID, product.getId());
 				createNode(eventWriter, XmlTags.TITLE, product.getNaam());
 				createNode(eventWriter, XmlTags.BASEPRICE, "" + product.getBasisprijs());
+				createNode(eventWriter, XmlTags.STATE, product.getStaat().getClass().getCanonicalName());
 				eventWriter.add(eventFactory.createEndElement("", "",XmlTags.PRODUCT));
 				eventWriter.add(end);
 			}

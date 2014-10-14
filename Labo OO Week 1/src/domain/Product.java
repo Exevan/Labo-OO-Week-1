@@ -20,8 +20,17 @@ public abstract class Product {
 		setId(id);
 		setNaam(name);
 		setBasisprijs(basisprijs);
-		setStaat(new UitleenbaarState(this));
+		setStaat(new UitleenbaarState());
 		setKorting(new GeenKortingStrategy(this));;
+	}
+	
+	public Product(String id, String name, int basisprijs, ProductState staat)
+			throws DomainException {
+		setId(id);
+		setNaam(name);
+		setBasisprijs(basisprijs);
+		setStaat(staat);
+		setKorting(new GeenKortingStrategy(this));;	
 	}
 
 	public String getId() {
@@ -60,8 +69,8 @@ public abstract class Product {
 		this.basisprijs = basisprijs;
 	}
 
-	public String getStaat() {
-		return staat.toString();
+	public ProductState getStaat() {
+		return staat;
 	}
 
 	public void setStaat(ProductState staat) {

@@ -2,11 +2,7 @@ package domain.state;
 
 import domain.Product;
 
-public class VerwijderdState extends State implements ProductState {
-
-	public VerwijderdState(Product product) {
-		super(product);
-	}
+public class VerwijderdState implements ProductState {
 
 	@Override
 	public void leenUit(Product product) {

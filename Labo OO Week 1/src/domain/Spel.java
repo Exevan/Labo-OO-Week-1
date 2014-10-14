@@ -1,10 +1,17 @@
 package domain;
 
+import domain.state.ProductState;
+
 public class Spel extends Product {
 
 	public Spel(String id, String name, int basisPrijs) 
 			throws DomainException {
 		super(id, name, basisPrijs);
+	}
+	
+	public Spel(String id, String name, int basisprijs, ProductState staat) 
+			throws DomainException {
+		super(id, name, basisprijs, staat);
 	}
 
 	@Override

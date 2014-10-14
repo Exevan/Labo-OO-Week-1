@@ -8,6 +8,7 @@ import domain.Film;
 import domain.Muziek;
 import domain.Product;
 import domain.Spel;
+import domain.state.ProductState;
 
 public class WinkelDatabaseTekstLezer implements WinkelDatabaseLezer {
 	
@@ -33,17 +34,26 @@ public class WinkelDatabaseTekstLezer implements WinkelDatabaseLezer {
 			String id = linescanner.next();
 			String title = linescanner.next();
 			int basisprijs = Integer.parseInt(linescanner.next());
+			Object staat = null;
+			try {
+				String stateName = linescanner.next();
+				Class<?> stateClass = Class.forName(stateName);
+				staat = stateClass.newInstance();
+			} catch (Exception e) {
+				linescanner.close();
+				throw new DbException("Product could not be created");
+			}
 			Product product = null;
 			try {
 				switch (type) {
 				case "F":
-					product = new Film(id, title, basisprijs);
+					product = new Film(id, title, basisprijs, (ProductState) staat);
 					break;
 				case "M":
-					product = new Muziek(id, title, basisprijs);
+					product = new Muziek(id, title, basisprijs, (ProductState) staat);
 					break;
 				case "S":
-					product = new Spel(id, title, basisprijs);
+					product = new Spel(id, title, basisprijs, (ProductState) staat);
 					break;
 				default:
 					break;

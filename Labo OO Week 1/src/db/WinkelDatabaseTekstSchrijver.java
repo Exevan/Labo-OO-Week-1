@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import domain.Product;
+import domain.state.VerwijderdState;
 
 public class WinkelDatabaseTekstSchrijver implements WinkelDatabaseSchrijver {
 
@@ -27,7 +28,7 @@ public class WinkelDatabaseTekstSchrijver implements WinkelDatabaseSchrijver {
 		ArrayList<Product> producten = handler.getWinkel().getProducten();
 		for(Product product: producten)
 		{
-			if(product.getStaat().equals("verwijderd"))
+			if(product.getStaat().getClass().equals(VerwijderdState.class))
 				continue;
 			
 			schrijver.print(product.getType());			
@@ -36,10 +37,13 @@ public class WinkelDatabaseTekstSchrijver implements WinkelDatabaseSchrijver {
 			schrijver.print(product.getId());
 			schrijver.print("\t");
 			//title
-			schrijver.println(product.getNaam());
+			schrijver.print(product.getNaam());
 			schrijver.print("\t");
 			//basisprijs
-			schrijver.println(product.getBasisprijs());
+			schrijver.print(product.getBasisprijs());
+			schrijver.print("\t");
+			//staat
+			schrijver.print(product.getStaat().getClass().getCanonicalName());
 		}
 		schrijver.close();		
 	}

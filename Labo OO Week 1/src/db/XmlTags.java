@@ -8,6 +8,6 @@ public class XmlTags{
 	static final String ID = "id";
 	static final String TITLE = "title";
 	static final String BASEPRICE = "basisprijs";
-
+	static final String STATE = "staat";
 
 }

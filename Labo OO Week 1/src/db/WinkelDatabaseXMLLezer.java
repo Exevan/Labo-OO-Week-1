@@ -16,6 +16,7 @@ import domain.Film;
 import domain.Muziek;
 import domain.Product;
 import domain.Spel;
+import domain.state.ProductState;
 
 public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 
@@ -38,6 +39,7 @@ public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 			String id = null;
 			String title = null;
 			int basisprijs = 0;
+			Object staat = null;
 
 			while (eventReader.hasNext()) {
 				XMLEvent event = eventReader.nextEvent();
@@ -63,6 +65,16 @@ public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 						event = eventReader.nextEvent();
 						basisprijs = Integer.parseInt(event.asCharacters().getData());
 					}
+					else if(sE.getName().getLocalPart().equals(XmlTags.STATE)) {
+						event = eventReader.nextEvent();
+						try {
+							String stateName = event.asCharacters().getData();
+							Class<?> stateClass = Class.forName(stateName);
+							staat = stateClass.newInstance();
+						} catch (Exception e) {
+							throw new DbException("Product could not be created");
+						}
+					}
 				}		       
 				// If we reach the end of an item element we add it to the list
 				else if (event.isEndElement()) {
@@ -72,13 +84,13 @@ public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 						try {
 							switch (type) {
 							case "F":
-								product = new Film(id, title, basisprijs);
+								product = new Film(id, title, basisprijs, (ProductState) staat);
 								break;
 							case "M":
-								product = new Muziek(id, title, basisprijs);
+								product = new Muziek(id, title, basisprijs, (ProductState) staat);
 								break;
 							case "S":
-								product = new Spel(id, title, basisprijs);
+								product = new Spel(id, title, basisprijs, (ProductState) staat);
 								break;
 							default:
 								break;

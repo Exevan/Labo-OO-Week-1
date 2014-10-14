@@ -2,11 +2,7 @@ package domain.state;
 
 import domain.Product;
 
-public class UitgeleendState extends State implements ProductState {
-
-	public UitgeleendState(Product product) {
-		super(product);
-	}
+public class UitgeleendState implements ProductState {
 
 	@Override
 	public void leenUit(Product product) {
@@ -16,9 +12,9 @@ public class UitgeleendState extends State implements ProductState {
 	@Override
 	public void brengTerug(Product product, boolean beschadigd) {
 		if(beschadigd)
-			product.setStaat(new BeschadigdState(product));
+			product.setStaat(new BeschadigdState());
 		else
-			product.setStaat(new UitleenbaarState(product));
+			product.setStaat(new UitleenbaarState());
 	}
 
 	@Override
