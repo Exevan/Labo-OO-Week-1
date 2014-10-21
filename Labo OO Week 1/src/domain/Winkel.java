@@ -3,6 +3,7 @@ package domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import domain.price.GeenKortingStrategy;
 import domain.price.KwantumKortingStrategy;
@@ -19,7 +20,7 @@ public class Winkel {
 
 	public Winkel()
 	{
-		producten = new HashMap<String, Product>();
+		producten = new LinkedHashMap<String, Product>();
 	}
 
 	public void voegProductToe(Product product)
