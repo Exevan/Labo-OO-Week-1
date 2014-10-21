@@ -15,6 +15,7 @@ import domain.DomainException;
 import domain.Film;
 import domain.Muziek;
 import domain.Product;
+import domain.ProductType;
 import domain.Spel;
 import domain.state.ProductState;
 
@@ -81,15 +82,16 @@ public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 					EndElement endElement = event.asEndElement();
 					if (endElement.getName().getLocalPart() == (XmlTags.PRODUCT)) {
 						Product product = null;
+						ProductType ptype = ProductType.fromString(type);
 						try {
-							switch (type) {
-							case "F":
+							switch (ptype) {
+							case FILM:
 								product = new Film(id, title, basisprijs, (ProductState) staat);
 								break;
-							case "M":
+							case MUZIEK:
 								product = new Muziek(id, title, basisprijs, (ProductState) staat);
 								break;
-							case "S":
+							case SPEL:
 								product = new Spel(id, title, basisprijs, (ProductState) staat);
 								break;
 							default:
@@ -98,7 +100,7 @@ public class WinkelDatabaseXMLLezer implements WinkelDatabaseLezer {
 							handler.getWinkel().voegProductToe(product);
 						} catch (DomainException e) {
 							throw new DbException("product from file cannot be added");
-						}
+						}				
 					}
 				}
 			}

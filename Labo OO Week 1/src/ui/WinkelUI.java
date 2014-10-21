@@ -10,8 +10,12 @@ import db.WinkelDatabaseXMLLezer;
 import db.WinkelDatabaseXMLSchrijver;
 import domain.DomainException;
 import domain.Film;
+import domain.KortingStrategyType;
+import domain.LeesStrategyType;
 import domain.Muziek;
 import domain.Product;
+import domain.ProductType;
+import domain.SchrijfStrategyType;
 import domain.Spel;
 import domain.Winkel;
 
@@ -31,7 +35,6 @@ public class WinkelUI {
 		Winkel winkel = new Winkel();
 
 		WinkelDatabaseHandler dbhandler = null;
-		int storageType = 0;
 		String fileString = JOptionPane.showInputDialog("Waar vinden we uw db-file?");
 
 		try {
@@ -41,12 +44,12 @@ public class WinkelUI {
 		}
 
 		if (fileString != null) {
-			String input = JOptionPane.showInputDialog("Gebruikt u tekst of xml als opslagmethode?\n\n1. Tekst\n2. XML");
-			storageType = Integer.parseInt(input);
+			
+			LeesStrategyType type = (LeesStrategyType) JOptionPane.showInputDialog(null, "Welke opslagmethode?", "Opslagmethode", JOptionPane.QUESTION_MESSAGE, null, LeesStrategyType.values(), null);
 
-			if (storageType == 1) {
+			if (type.equals(LeesStrategyType.TEKST)) {
 				dbhandler.setWinkelDatabaseLezer(new WinkelDatabaseTekstLezer(dbhandler));
-			} else if (storageType == 2) {
+			} else if (type.equals(LeesStrategyType.XML)) {
 				dbhandler.setWinkelDatabaseLezer(new WinkelDatabaseXMLLezer(dbhandler));
 			}
 
@@ -89,13 +92,12 @@ public class WinkelUI {
 
 			}
 		}
+		
+		SchrijfStrategyType type = (SchrijfStrategyType) JOptionPane.showInputDialog(null, "Welke opslagmethode?", "Opslagmethode", JOptionPane.QUESTION_MESSAGE, null, SchrijfStrategyType.values(), null);
 
-		String input = JOptionPane.showInputDialog("Gebruikt u tekst of xml als opslagmethode?\n\n1. Tekst\n2. XML");
-		storageType = Integer.parseInt(input);
-
-		if (storageType == 1) {
+		if (type.equals(SchrijfStrategyType.TEKST)) {
 			dbhandler.setWinkelDatabaseSchrijver(new WinkelDatabaseTekstSchrijver(dbhandler));
-		} else if (storageType == 2) {
+		} else if (type.equals(SchrijfStrategyType.XML)) {
 			dbhandler.setWinkelDatabaseSchrijver(new WinkelDatabaseXMLSchrijver(dbhandler));
 		}
 
@@ -115,7 +117,7 @@ public class WinkelUI {
 	}
 
 	private Object askType() {
-		return JOptionPane.showInputDialog(null, "What type:", "Possible types", JOptionPane.QUESTION_MESSAGE, null, Winkel.TYPES, null);
+		return JOptionPane.showInputDialog(null, "What type:", "Possible types", JOptionPane.QUESTION_MESSAGE, null, ProductType.values(), null);
 	}
 
 	private int askDays() {
@@ -126,8 +128,8 @@ public class WinkelUI {
 		return Integer.parseInt(JOptionPane.showInputDialog("Enter the product's base price:"));
 	}
 
-	private int askKorting(String id, Winkel winkel) {
-		return Integer.parseInt(JOptionPane.showInputDialog("Kies een korting:\n + 1. Geen korting\n 2. Regular customer korting\n 3. Kwantumkorting"));
+	private KortingStrategyType askKorting(String id, Winkel winkel) {
+		return (KortingStrategyType) JOptionPane.showInputDialog(null, "Welke korting?", "Korting", JOptionPane.QUESTION_MESSAGE, null, KortingStrategyType.values(), null);
 	}
 
 	private void addItem(Winkel winkel) {
@@ -135,17 +137,17 @@ public class WinkelUI {
 		String id = askId();
 		Object choice = askType();
 		int basisPrijs = askBasePrice();
-		String type = (String) choice;
+		ProductType type = (ProductType) choice;
 		Product product = null;
 		try {
 			switch (type) {
-			case "F":
+			case FILM:
 				product = new Film(id, title, basisPrijs);
 				break;
-			case "M":
+			case MUZIEK:
 				product = new Muziek(id, title, basisPrijs);
 				break;
-			case "S":
+			case SPEL:
 				product = new Spel(id, title, basisPrijs);
 				break;
 			default:
@@ -168,7 +170,7 @@ public class WinkelUI {
 
 	private void showPrice(Winkel winkel) {
 		String id = askId();
-		int type =askKorting(id, winkel);
+		KortingStrategyType type = askKorting(id, winkel);
 		int dagen = askDays();
 		winkel.setKorting(id, type);
 		JOptionPane.showMessageDialog(null, "Huurprijs: " + winkel.getHuurPrijs(id, dagen) + " euro.");
@@ -176,7 +178,7 @@ public class WinkelUI {
 
 	private void rentProduct(Winkel winkel) {
 		String id = JOptionPane.showInputDialog("Enter the id:");
-		int type = askKorting(id, winkel);
+		KortingStrategyType type = askKorting(id, winkel);
 		int dagen = askDays();
 		double prijs = winkel.getHuurPrijs(id, dagen);
 		winkel.setKorting(id, type);
