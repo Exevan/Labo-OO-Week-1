@@ -32,7 +32,7 @@ public class Film extends Product {
 
 	@Override
 	public String getType() {		
-		return Winkel.FILMT;
+		return ProductType.FILM.toString();
 	}
 
 }

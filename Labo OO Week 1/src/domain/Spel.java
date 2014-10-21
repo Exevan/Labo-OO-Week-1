@@ -23,12 +23,12 @@ public class Spel extends Product {
 	
 	public String toString()
 	{
-		return "spel - "+getNaam();
+		return "spel - " + getNaam();
 	}
 
 	@Override
 	public String getType() {		
-		return Winkel.SPELT;
+		return ProductType.SPEL.toString();
 	}
 
 }

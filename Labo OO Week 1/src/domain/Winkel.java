@@ -11,11 +11,6 @@ import domain.price.RegularCustomeKortingSTrategy;
 
 public class Winkel {
 
-	public static final String FILMT = "F";
-	public static final String MUZIEKT = "M";
-	public static final String SPELT = "S";
-	public static final String[] TYPES = {FILMT,MUZIEKT,SPELT};
-
 	private HashMap<String, Product> producten; 
 
 	public Winkel()
@@ -86,16 +81,16 @@ public class Winkel {
 		return producten.get(id).getBasisprijs() / 3;
 	}
 
-	public void setKorting(String id, int type) {
+	public void setKorting(String id, KortingStrategyType type) {
 		Product product = getProduct(id);
 		switch (type) {
-		case 1:
+		case GEEN:
 			product.setKorting(new GeenKortingStrategy(product));
 			break;
-		case 2:
+		case REGULAR:
 			product.setKorting(new RegularCustomeKortingSTrategy(product));
 			break;
-		case 3:
+		case KWANTUM:
 			product.setKorting(new KwantumKortingStrategy(product));
 			break;
 		default:

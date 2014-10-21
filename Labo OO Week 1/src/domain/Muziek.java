@@ -23,12 +23,12 @@ public class Muziek extends Product {
 	
 	public String toString()
 	{
-		return "cd - "+getNaam();
+		return "Muziek - " + getNaam();
 	}
 
 	@Override
 	public String getType() {
-		return Winkel.MUZIEKT;
+		return ProductType.MUZIEK.toString();
 	}
 
 }
