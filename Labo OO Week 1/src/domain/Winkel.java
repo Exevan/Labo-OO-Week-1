@@ -3,21 +3,29 @@ package domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
+
+import javax.jws.Oneway;
 
 import domain.price.GeenKortingStrategy;
 import domain.price.KwantumKortingStrategy;
 import domain.price.RegularCustomeKortingSTrategy;
 
-public class Winkel {
+public class Winkel implements Observable {
 
-	private HashMap<String, Product> producten; 
+	private HashMap<String, Product> producten;
+	private KlantenLijst klantenLijst;
+	private List<Observer> observers;
 
 	public Winkel()
 	{
 		producten = new LinkedHashMap<String, Product>();
 	}
 
+//---PRODUCTEN---------------------------------------------------------------------------------------------------------------------------------------
+	
 	public void voegProductToe(Product product)
 			throws DomainException{
 		if(product == null)
@@ -95,6 +103,38 @@ public class Winkel {
 			break;
 		default:
 			break;
+		}
+	}
+
+//---KLANTEN-----------------------------------------------------------------------------------------------------------------------------------------
+	
+	public void voegKlantToe(String naam, String email) {
+		klantenLijst.addKlant(naam, email);
+	}
+	
+	public void verwijderKlant(int id) {
+		klantenLijst.removeKlant(id);
+	}
+	
+	
+
+//---OBSERVERS---------------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	@Override
+	public void register(Observer observer) {
+		observers.add(observer);		
+	}
+
+	@Override
+	public void remove(Observer observer) {
+		observers.remove(observer);
+	}
+
+	@Override
+	public void notify(Object type) {
+		for(Observer observer : observers) {
+			observer.update(this, type);
 		}
 	}
 
